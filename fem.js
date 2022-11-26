@@ -33,8 +33,8 @@ function integrate(f, x0, x1) {
     var k1 = (x0 + x1)/2;
     var dk = (x1 - x0)/2;
 
-    var t = [-0.57735, 0.57735];
-    var w = [1., 1.];
+    var t = [-0.774597, 0., 0.774597];
+    var w = [5./9., 8./9., 5./9.];
     var L = 0.;
     for (var i=0; i<t.length; ++i) {
         L += f(k0*t[i] + k1)*dk*w[i];
@@ -46,6 +46,9 @@ function eval_weak(phi0, phi1, x0, x1, bilinear, linear) {
     function constant(x) {
         function f_(t) { return x; }
         return f_;
+    }
+    function x(x) {
+        return x;
     }
 
     var u = phi0; var v = phi0;
@@ -70,6 +73,7 @@ function eval_weak(phi0, phi1, x0, x1, bilinear, linear) {
 
     var v = phi0;
     var l = 0.;
+    console.log(linear);
     eval ("l = " + linear);
     l0 = integrate(l, x0, x1)
 
@@ -122,7 +126,7 @@ function gen_system() {
         return (1 + t)/2;
     }
 
-    var N = 40;
+    var N = 80;
     var x = linspace(0, 1, N);
     var A = math.zeros(N, N);
     var b = math.zeros(N);
@@ -163,16 +167,31 @@ function gen_system() {
         A = setRow(A, 0, 0.);
         A.set([0, 0], 1.);
         b.set([0], value);
+    } else if (type == 'neumann') {
+        var i = 0;
+        var h = x[i+1] - x[i];
+        A = setRow(A, i, 0.);
+        A.set([i, i], -3);
+        A.set([i, i+1], 4);
+        A.set([i, i+2], -1);
+        b.set([i], value*h);
     }
 
     type = '';
     value = 0.;
     eval(bc1);
+    var i = math.size(A).toArray()[0] - 1;
     if (type == 'dirichlet') {
-        i = math.size(A).toArray()[0] - 1;
         A = setRow(A, i, 0.);
         A.set([i, i], 1.);
         b.set([i], value);
+    } else if (type == 'neumann') {
+        var h = x[i] - x[i-1];
+        A = setRow(A, i, 0.);
+        A.set([i, i], 3);
+        A.set([i, i-1], -4);
+        A.set([i, i-2], 1);
+        b.set([i], value*h);
     }
 
     var u = math.multiply(math.inv(A), b);
