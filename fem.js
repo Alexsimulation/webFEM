@@ -50,6 +50,10 @@ function eval_weak(phi0, phi1, x0, x1, bilinear, linear) {
     function x(x) {
         return x;
     }
+    function f(expr) {
+        function f_(x) { var y; var pi = 3.141592653589793238; eval("y = " + expr); return y; }
+        return f_;
+    }
 
     var u = phi0; var v = phi0;
     var b = 0.;
@@ -174,7 +178,7 @@ function gen_system() {
         A.set([i, i], -3);
         A.set([i, i+1], 4);
         A.set([i, i+2], -1);
-        b.set([i], value*h);
+        b.set([i], value*2*h);
     }
 
     type = '';
@@ -191,7 +195,7 @@ function gen_system() {
         A.set([i, i], 3);
         A.set([i, i-1], -4);
         A.set([i, i-2], 1);
-        b.set([i], value*h);
+        b.set([i], value*2*h);
     }
 
     var u = math.multiply(math.inv(A), b);
