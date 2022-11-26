@@ -46,6 +46,8 @@ var myChart = new Chart("myChart", {
                     autoSkip: true,
                     maxTicksLimit: 10,
                     padding: 20,
+                    min: 0.,
+                    max: 0.1,
                     fontColor: "rgba(225,225,225,1.0)"
                 }
             }]
@@ -91,10 +93,16 @@ function evalv(xv, s) {
 function updatePlot() {
     var [xValues, yValues] = gen_system();
 
+    var miny = Math.min.apply(null, yValues);
+    var maxy = Math.max.apply(null, yValues);
+    var yspan = maxy - miny;
+
     // Chart
     myChart["data"]["labels"] = xValues;
     myChart["data"]["datasets"][0]["label"] = 'u(x)';
     myChart["data"]["datasets"][0]["data"] = yValues;
+    myChart["options"]["scales"]["yAxes"][0]["ticks"]["min"] = miny - yspan*0.1;
+    myChart["options"]["scales"]["yAxes"][0]["ticks"]["max"] = maxy + yspan*0.1;
     myChart.update();
 
 }

@@ -1,9 +1,9 @@
 :root {
     --dark: #191919;
-    --mid: #2D4263;
-    --color: #C84B31;
+    --mid: #14233b;
+    --color: #972c24;
     --light: #ECDBBA;
-    --white: #D3D3D3;
+    --white: #FFFFFF;
 }
 
 body {
@@ -21,10 +21,11 @@ h1 {
     color: var(--white);
     
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
     text-decoration: none;
     font-size: 42px;
+    padding-left: 50px;
     width:100%;
     height:80px;
 }

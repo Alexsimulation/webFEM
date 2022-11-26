@@ -77,7 +77,6 @@ function eval_weak(phi0, phi1, x0, x1, bilinear, linear) {
 
     var v = phi0;
     var l = 0.;
-    console.log(linear);
     eval ("l = " + linear);
     l0 = integrate(l, x0, x1)
 
@@ -198,9 +197,9 @@ function gen_system() {
         b.set([i], value*2*h);
     }
 
-    var u = math.multiply(math.inv(A), b);
+    var u = math.lusolve(A, b);
 
-    var ua = u.toArray();
+    var ua = math.flatten(u).toArray();
 
     return [x, ua];
 }
