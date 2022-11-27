@@ -6,7 +6,7 @@
 <br>
 
 <!-- Badges -->
-<p>
+<p align="center">
   <a href="https://github.com/Alexsimulation/webFEM/graphs/contributors">
     <img src="https://img.shields.io/github/contributors/Alexsimulation/webFEM" alt="contributors" />
   </a>
