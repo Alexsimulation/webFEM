@@ -1,5 +1,13 @@
 
 
+function sin(x) { return Math.sin(x); }
+function cos(x) { return Math.cos(x); }
+function exp(x) { return Math.exp(x); }
+function log(x) { return Math.log10(x); }
+function ln(x) { return Math.log(x); }
+
+
+
 function grad(f) {
     function gf(x) {
         return (f(x+1e-5) - f(x-1e-5))/2e-5;
