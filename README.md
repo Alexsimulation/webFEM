@@ -23,7 +23,7 @@
     <img src="https://img.shields.io/github/issues/Alexsimulation/webFEM" alt="open issues" />
   </a>
   <a href="https://github.com/Alexsimulation/webFEM/blob/master/LICENSE">
-    <img src="https://github.com/Alexsimulation/webFEM.svg" alt="license" />
+    <img src="https://img.shields.io/github/license/Alexsimulation/webFEM.svg" alt="license" />
   </a>
 </p>
 
