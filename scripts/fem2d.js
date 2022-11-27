@@ -10,27 +10,32 @@ function ln(x) { return Math.log(x); }
 
 function grad(f) {
     function gf(x) {
-        return (f(x+1e-5) - f(x-1e-5))/2e-5;
+        return [
+            (f([x[0]+1e-5, x[1]]) - f([x[0]-1e-5, x[1]]))/2e-5,
+            (f([x[0], x[1]+1e-5]) - f([x[0], x[1]-1e-5]))/2e-5
+        ];
     }
     return gf;
 }
 function dot(a, b) {
     function d_ab(x) {
-        return a(x)*b(x);
+        var av = a(x);
+        var bv = b(x);
+        return av[0]*bv[0] + av[1]*bv[1];
     }
     return d_ab;
 }
 
 function add(a, b) {
     function d_ab(x) {
-        return a(x) + b(x);
+        return math.add(a(x), b(x));
     }
     return d_ab;
 }
 
 function sub(a, b) {
     function d_ab(x) {
-        return a(x) - b(x);
+        return math.substract(a(x), b(x));
     }
     return d_ab;
 }
@@ -124,30 +129,46 @@ function setRow(A, k, v) {
 }
 
 
-function gen_system(bilinear, linear, bc0, bc1) {
+function gen_system(bilinear, linear, bc0, bc1, mesh) {
 
 
-    function phi0(t) {
-        return (1 - t)/2;
+    function phi0(p) {
+        var [t, n] = p;
+        return (1 - t)(1 - n)/4;
     }
-    function phi1(t) {
-        return (1 + t)/2;
+    function phi1(p) {
+        var [t, n] = p;
+        return (1 + t)(1 - n)/4;
+    }
+    function phi2(p) {
+        var [t, n] = p;
+        return (1 + t)(1 + n)/4;
+    }
+    function phi3(p) {
+        var [t, n] = p;
+        return (1 - t)(1 + n)/4;
     }
 
-    var N = 120;
-    var x = linspace(0, 1, N);
+    var N = mesh["nodes"].length;
     var A = math.zeros(N, N, 'sparse');
     var b = math.zeros(N);
     
 
-    for (var i=0; i<x.length-1; ++i) {
+    for (var i=0; i<mesh["elements"].length; ++i) {
+        var ei = mesh["elements"][i];
         // Fill matrix
         var x0 = x[i];
         var x1 = x[i+1];
-        var h = x1 - x0;
+        
+        var x0 = x[i];
+        var x1 = x[i+1];
 
-        function tf(x) {
-            return 2.*(x - x0)/(x1 - x0) - 1.;
+        function tf(p) {
+            var [x, y] = p;
+            return [
+                2.*(x - x0)/(x1 - x0) - 1.,
+                2.*(y - y0)/(y1 - y0) - 1.,
+            ];
         }
 
         function phi0x(x) { return phi0(tf(x)); }

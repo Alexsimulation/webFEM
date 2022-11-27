@@ -6,10 +6,10 @@
 -->
 <html>
 	<head>
-		<title>1D Tutorial - webFEM</title>
+		<title>1D Solver - webFEM</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="../assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.4.0/math.js"></script>
@@ -17,8 +17,8 @@
 		<script type="text/javascript" id="MathJax-script" async
 			src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
 		</script>
-		<script src="script.js"></script>
-		<script src="fem.js"></script>
+		<script src="../scripts/script.js"></script>
+		<script src="../scripts/fem.js"></script>
 	</head>
 	<body class="is-preload">
 
@@ -28,7 +28,7 @@
 				<!-- Header -->
 				<!-- Note: The "styleN" class below should match that of the banner element. -->
 					<header id="header" class="alt style2">
-						<a href="index.html" class="logo"><strong>webFEM</strong> <span>a finite element solver</span></a>
+						<a href="../index.html" class="logo"><strong>webFEM</strong> <span>a finite element solver</span></a>
 						<nav>
 							<a href="#menu">Menu</a>
 						</nav>
@@ -37,9 +37,9 @@
 				<!-- Menu -->
 					<nav id="menu">
 						<ul class="links">
-							<li><a href="index.html">Home</a></li>
+							<li><a href="../index.html">Home</a></li>
 							<li><a href="one_d_tuto.html">1D Tutorial</a></li>
-							<li><a href="generic.html">1D Solver</a></li>
+							<li><a href="one_d_solver.html">1D Solver</a></li>
 							<li><a href="elements.html">2D Tutorial</a></li>
 						</ul>
 						<ul class="actions stacked">
@@ -53,14 +53,14 @@
 					<section id="banner" class="style2">
 						<div class="inner">
 							<span class="image">
-								<img src="images/pic07.jpg" alt="" />
+								<img src="../images/pic01.jpg" alt="" />
 							</span>
 							<header class="major">
-								<h1>1D Tutorial</h1>
+								<h1>1D Solver</h1>
 							</header>
 							<div class="content">
-								<p>Learn FEM with heat transfer<br />
-								1D problems with fixed temperature or heat flux boundaries.</p>
+								<p>Solve your own equations by specifying the weak forms<br />
+								1D problems with multiple variables and boundary conditions.</p>
 							</div>
 						</div>
 					</section>
@@ -68,68 +68,44 @@
 				<!-- Main -->
 					<div id="main">
 
-						<!-- One -->
-							<section id="one">
-								<div class="inner">
-									<header class="major">
-										<h2>The heat transfer equation</h2>
-									</header>
-									<p>
-										The heat transfer equation, in one dimension, can be written in partial differential form as such:
-										$$ -\frac{\partial}{\partial x}\left(k\frac{\partial T}{\partial x}\right) = q $$
-										Here, k in the thermal conductivity and q the volumetric heat source. This equation says in a way that the rate of change of the heat flux (left term) is equal to the volumetric heat source in the material (right term).
-									</p>
-								</div>
-							</section>
-
 						<!-- Two -->
-							<section id="two" class="spotlights">
+							<section id="one" class="spotlights">
 								<section>
 									<div class="content">
 										<div class="inner">
 											<header class="major">
-												<h3>Try it</h3>
+												<h3>Solve</h3>
 											</header>
-											<p>Choose a value of k, q, and boundary conditions, and watch the plot on the right update. k and q can be function of the x position, try x**2 per example.</p>
-											<div class="paramform"> <p class="paramformchild">k</p> <input type="text" id="fk" name="fk" value="1" onchange="updateThermalPlot()"> </div>
-											<div class="paramform"> <p class="paramformchild">q</p> <input type="text" id="fq" name="fq" value="1" onchange="updateThermalPlot()"> </div>
-											<div class="paramform"> <p class="paramformchild">BC0</p> <select id="bc0" onchange="updateThermalPlot()">
+											<p>Choose a bilinear form, a linear form, and boundary conditions, and watch the plot on the right update. The forms can be function of the x position.</p>
+												<p class="paramformchild">mesh</p>
+												<input type="text" id="fmesh" name="fmesh" value="linspace(0, 1, 120)" onchange="updatePlot()">
+												<p class="paramformchild">bilinear form</p>
+												<input type="text" id="fbilinear" name="fbilinear" value="ux*vx" onchange="updatePlot()">
+												<p class="paramformchild">linear form</p>
+												<input type="text" id="flinear" name="flinear" value="v" onchange="updatePlot()">
+											
+											<div class="paramform"> <p class="paramformchild">BC0</p> <select id="bc0" onchange="updatePlot()">
 												<option value="dirichlet">dirichlet</option>
 												<option value="neumann">neumann</option>
-											  </select> <input type="text" id="bc0v" name="bc0v" value="0" onchange="updateThermalPlot()"> </div>
-											  <div class="paramform"> <p class="paramformchild">BC1</p> <select id="bc1" onchange="updateThermalPlot()">
+												<option value="none">none</option>
+											  </select> <input type="text" id="bc0v" name="bc0v" value="0" onchange="updatePlot()"> </div>
+											  <div class="paramform"> <p class="paramformchild">BC1</p> <select id="bc1" onchange="updatePlot()">
 												<option value="dirichlet">dirichlet</option>
 												<option value="neumann">neumann</option>
-											  </select> <input type="text" id="bc1v" name="bc1v" value="0" onchange="updateThermalPlot()"> </div>
+												<option value="none">none</option>
+											  </select> <input type="text" id="bc1v" name="bc1v" value="0" onchange="updatePlot()"> </div>
 											<p></p>
 											<ul class="actions">
-												<li><a class="button" onclick="updateThermalPlot()">Update plot</a></li>
+												<li><a class="button" onclick="updatePlot()">Update plot</a></li>
 											</ul>
 										</div>
 									</div>
 									<a class="chart">
 										<canvas id="myChart">
-											<script src="plot-thermal.js"></script>
+											<script src="../scripts/plot-1d-solver.js"></script>
 										</canvas>
 									</a>
 								</section>
-							</section>
-
-						<!-- Three -->
-							<section id="three">
-								<div class="inner">
-									<header class="major">
-										<h2>Strong to weak form</h2>
-									</header>
-									<p>
-										The above equation is in what we would call its strong form. To use the finite element method, we need a weaker form of the last equation. By strong or weak, we're talking about the order of the spatial derivative, currently we have a second order equation, but we'd like a first order one. To get that equation, we first start by multiplying both sides with a test function v:
-										$$ -\frac{\partial}{\partial x}\left(k\frac{\partial T}{\partial x}\right)v = qv $$
-										We then need to integrate both sides. Assume without loss of generality that our domain has x values that go from 0 to 1. The integration will allow us to lower the derivative order.
-										$$ -\int_0^1\frac{\partial}{\partial x}\left(k\frac{\partial T}{\partial x}\right)v dx = \int_0^1 qv dx $$
-										We can then integrate by parts to pass the derivative to the test function v.
-										$$ \int_0^1k\frac{\partial T}{\partial x}\frac{\partial v}{\partial x} dx - \left[k\frac{\partial T}{\partial x}v\right]_0^1 = \int_0^1 qv dx $$
-									</p>
-								</div>
 							</section>
 
 					</div>
@@ -202,13 +178,13 @@
 			</div>
 
 		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+			<script src="../assets/js/jquery.min.js"></script>
+			<script src="../assets/js/jquery.scrolly.min.js"></script>
+			<script src="../assets/js/jquery.scrollex.min.js"></script>
+			<script src="../assets/js/browser.min.js"></script>
+			<script src="../assets/js/breakpoints.min.js"></script>
+			<script src="../assets/js/util.js"></script>
+			<script src="../assets/js/main.js"></script>
 
 	</body>
 </html>

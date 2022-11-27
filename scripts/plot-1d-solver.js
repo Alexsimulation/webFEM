@@ -74,17 +74,14 @@ var myChart = new Chart("myChart", {
 });
 
 
-function updateThermalPlot() {
-    var k = document.getElementById("fk").value;
-    if (k == '') {
-        k = '1.';
-    }
-    var q = document.getElementById("fq").value;
-    if (q == '') {
-        q = '0.';
-    }
-    var bilinear = "dot(dot(grad(u), grad(v)), f('" + k + "'))"  ;
-    var linear = "dot(v, f('" + q + "'))";
+function updatePlot() {
+    var fx = document.getElementById("fmesh").value;
+    var x = [];
+    eval("x = " + fx);
+    
+    var bilinear = document.getElementById("fbilinear").value;
+    var linear = document.getElementById("flinear").value;
+    
     var bc0t = document.getElementById("bc0").value;
     var bc0v = document.getElementById("bc0v").value;
     var bc0 = "type = '" + bc0t + "'; value = " + bc0v + ";";
@@ -92,7 +89,7 @@ function updateThermalPlot() {
     var bc1v = document.getElementById("bc1v").value;
     var bc1 = "type = '" + bc1t + "'; value = " + bc1v + ";";
 
-    var [xValues, yValues] = gen_system(bilinear, linear, bc0, bc1);
+    var [xValues, yValues] = gen_system(bilinear, linear, bc0, bc1, x);
 
     var miny = Math.min.apply(null, yValues);
     var maxy = Math.max.apply(null, yValues);
@@ -100,7 +97,7 @@ function updateThermalPlot() {
 
     // Chart
     myChart["data"]["labels"] = xValues;
-    myChart["data"]["datasets"][0]["label"] = 'T(x)';
+    myChart["data"]["datasets"][0]["label"] = 'u(x)';
     myChart["data"]["datasets"][0]["data"] = yValues;
     myChart["options"]["scales"]["yAxes"][0]["ticks"]["min"] = miny - yspan*0.1;
     myChart["options"]["scales"]["yAxes"][0]["ticks"]["max"] = maxy + yspan*0.1;
@@ -108,4 +105,4 @@ function updateThermalPlot() {
 
 }
 
-updateThermalPlot();
+updatePlot();
