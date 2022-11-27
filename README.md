@@ -5,12 +5,27 @@
 <p align="center"><i>Want to try FEM? Visit the <a href="https://alexsimulation.github.io/webFEM/">website</a></i></p>
 <br>
 
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
+<!-- Badges -->
+<p>
+  <a href="https://github.com/Alexsimulation/webFEM/graphs/contributors">
+    <img src="https://github.com/Alexsimulation/webFEM" alt="contributors" />
+  </a>
+  <a href="">
+    <img src="https://img.shields.io/github/last-commit/Alexsimulation/webFEM" alt="last update" />
+  </a>
+  <a href="https://github.com/Alexsimulation/webFEM/network/members">
+    <img src="https://github.com/Alexsimulation/webFEM" alt="forks" />
+  </a>
+  <a href="https://github.com/Alexsimulation/webFEM/stargazers">
+    <img src="https://github.com/Alexsimulation/webFEM" alt="stars" />
+  </a>
+  <a href="https://github.com/Alexsimulation/webFEM/issues/">
+    <img src="https://img.shields.io/github/issues/Alexsimulation/webFEM" alt="open issues" />
+  </a>
+  <a href="https://github.com/Alexsimulation/webFEM/blob/master/LICENSE">
+    <img src="https://github.com/Alexsimulation/webFEM.svg" alt="license" />
+  </a>
+</p>
 
 This project aims to provide an easy to use website app for solving finite element problems in 1D and 2D, on simple geometries. Tutorials are provided to introduce physical problems. The full solvers are able to handle linear problems with user-specified weak forms and boundary conditions.
 
