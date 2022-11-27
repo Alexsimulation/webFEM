@@ -8,7 +8,7 @@
 <!-- Badges -->
 <p>
   <a href="https://github.com/Alexsimulation/webFEM/graphs/contributors">
-    <img src="https://github.com/Alexsimulation/webFEM" alt="contributors" />
+    <img src="https://img.shields.io/github/contributors/Alexsimulation/webFEM" alt="contributors" />
   </a>
   <a href="">
     <img src="https://img.shields.io/github/last-commit/Alexsimulation/webFEM" alt="last update" />
