@@ -127,7 +127,7 @@ function gen_system(bilinear, linear, bc0, bc1) {
 
     var N = 80;
     var x = linspace(0, 1, N);
-    var A = math.zeros(N, N);
+    var A = math.zeros(N, N, 'sparse');
     var b = math.zeros(N);
     
 
