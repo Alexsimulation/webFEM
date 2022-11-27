@@ -44,6 +44,7 @@ function integrate(f, x0, x1) {
     var t = [-0.774597, 0., 0.774597];
     var w = [5./9., 8./9., 5./9.];
     var L = 0.;
+    
     for (var i=0; i<t.length; ++i) {
         L += f(k0*t[i] + k1)*dk*w[i];
     }
@@ -133,7 +134,7 @@ function gen_system(bilinear, linear, bc0, bc1) {
         return (1 + t)/2;
     }
 
-    var N = 80;
+    var N = 120;
     var x = linspace(0, 1, N);
     var A = math.zeros(N, N, 'sparse');
     var b = math.zeros(N);

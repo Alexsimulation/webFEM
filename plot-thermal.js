@@ -1,4 +1,21 @@
 
+
+function cround(value, index, values) { 
+    var v = 0.;
+    if (Math.abs(value) != 0.) {
+        var k = 10;
+        v = Math.round(value * k)/k;
+        while (Math.abs(v - value) > 0.9*Math.abs(value)) {
+            k *= 10;
+            v = Math.round(value * k)/k;
+        }
+        k *= 10;
+        v = Math.round(value * k)/k;
+    }
+    return v;
+}
+
+
 var myChart = new Chart("myChart", {
     type: "line",
     data: {
@@ -32,9 +49,7 @@ var myChart = new Chart("myChart", {
                     maxTicksLimit: 10,
                     padding: 20,
                     fontColor: "rgba(225,225,225,1.0)",
-                    callback: function(value, index, values) { 
-                        return Math.round(value * 100)/100;
-                    }
+                    callback: cround
                 }
             }],
             yAxes: [{
@@ -50,7 +65,8 @@ var myChart = new Chart("myChart", {
                     padding: 20,
                     min: 0.,
                     max: 0.1,
-                    fontColor: "rgba(225,225,225,1.0)"
+                    fontColor: "rgba(225,225,225,1.0)",
+                    callback: cround
                 }
             }]
         }
