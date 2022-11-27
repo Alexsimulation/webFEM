@@ -115,12 +115,8 @@ function setRow(A, k, v) {
 }
 
 
-function gen_system() {
+function gen_system(bilinear, linear, bc0, bc1) {
 
-    //var bilinear = "dot(grad(u), grad(v))";
-    //var linear = "dot(constant(1.), v)";
-
-    var [bilinear, linear, bc0, bc1] = getWriteBoxText();
 
     function phi0(t) {
         return (1 - t)/2;

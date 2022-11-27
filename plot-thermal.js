@@ -11,6 +11,8 @@ var myChart = new Chart("myChart", {
         }]
     },
     options:{
+        responsive: true,
+        maintainAspectRatio: false,
         legend: {
             labels: {
                 fontColor: "rgba(255, 255, 255, 1.0)",
@@ -55,44 +57,24 @@ var myChart = new Chart("myChart", {
     }
 });
 
-function linspace(v0, v1, n) {
-    var arr = [];
-    var step = (v1 - v0)/(n - 1);
-    for (var i=0; i<n; ++i) {
-        arr.push(v0 + (step*i));
+
+function updateThermalPlot() {
+    var k = document.getElementById("fk").value;
+    if (k == '') {
+        k = '1.';
     }
-    return arr;
-}
-
-function sin(x) { return Math.sin(x); }
-function cos(x) { return Math.cos(x); }
-function exp(x) { return Math.exp(x); }
-function log(x) { return Math.log10(x); }
-function ln(x) { return Math.log(x); }
-
-function mult(x, s) {
-    for (var i=0; i<x.length; ++i) {
-        x[i] *= s;
+    var q = document.getElementById("fq").value;
+    if (q == '') {
+        q = '0.';
     }
-    return x;
-}
-
-function evalv(xv, s) {
-    var arr = [];
-    var pi = 3.141592653589793238;
-    for (var i=0; i<xv.length; ++i) {
-        var x = xv[i];
-        var y = 0.;
-        eval(s);
-        arr.push(y);
-    }
-    return arr;
-}
-
-
-function updatePlot() {
-
-    var [bilinear, linear, bc0, bc1] = getWriteBoxText();
+    var bilinear = "dot(dot(grad(u), grad(v)), f('" + k + "'))"  ;
+    var linear = "dot(v, f('" + q + "'))";
+    var bc0t = document.getElementById("bc0").value;
+    var bc0v = document.getElementById("bc0v").value;
+    var bc0 = "type = '" + bc0t + "'; value = " + bc0v + ";";
+    var bc1t = document.getElementById("bc1").value;
+    var bc1v = document.getElementById("bc1v").value;
+    var bc1 = "type = '" + bc1t + "'; value = " + bc1v + ";";
 
     var [xValues, yValues] = gen_system(bilinear, linear, bc0, bc1);
 
@@ -102,7 +84,7 @@ function updatePlot() {
 
     // Chart
     myChart["data"]["labels"] = xValues;
-    myChart["data"]["datasets"][0]["label"] = 'u(x)';
+    myChart["data"]["datasets"][0]["label"] = 'T(x)';
     myChart["data"]["datasets"][0]["data"] = yValues;
     myChart["options"]["scales"]["yAxes"][0]["ticks"]["min"] = miny - yspan*0.1;
     myChart["options"]["scales"]["yAxes"][0]["ticks"]["max"] = maxy + yspan*0.1;
@@ -110,4 +92,4 @@ function updatePlot() {
 
 }
 
-updatePlot();
+updateThermalPlot();
