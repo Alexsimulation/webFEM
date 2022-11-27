@@ -2,8 +2,6 @@
 <h1 align="center">webFEM</h1>
 <p align="center"><i>Online finite element solver</i></p>
 <br>
-<p align="center"><i>Want to try FEM? Visit the <a href="https://alexsimulation.github.io/webFEM/">website</a></i></p>
-<br>
 
 <!-- Badges -->
 <p align="center">
@@ -26,6 +24,17 @@
     <img src="https://img.shields.io/github/license/Alexsimulation/webFEM.svg" alt="license" />
   </a>
 </p>
+
+<h4>
+    <a href="https://alexsimulation.github.io/webFEM/">Visit Website</a>
+  <span> · </span>
+    <a href="https://github.com/Alexsimulation/webFEM/wiki">Documentation</a>
+  <span> · </span>
+    <a href="https://github.com/Alexsimulation/webFEM/issues/">Report Bug</a>
+  <span> · </span>
+    <a href="https://github.com/Alexsimulation/webFEM/issues/">Request Feature</a>
+  </h4>
+</div>
 
 
 ## :star2: About the project
