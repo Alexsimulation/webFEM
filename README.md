@@ -25,6 +25,7 @@
   </a>
 </p>
 
+<div align="center">
 <h4>
     <a href="https://alexsimulation.github.io/webFEM/">Visit Website</a>
   <span> · </span>
@@ -33,8 +34,11 @@
     <a href="https://github.com/Alexsimulation/webFEM/issues/">Report Bug</a>
   <span> · </span>
     <a href="https://github.com/Alexsimulation/webFEM/issues/">Request Feature</a>
-  </h4>
+</h4>
 </div>
+
+<br>
+
 
 
 ## :star2: About the project
