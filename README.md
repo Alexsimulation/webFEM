@@ -14,10 +14,10 @@
     <img src="https://img.shields.io/github/last-commit/Alexsimulation/webFEM" alt="last update" />
   </a>
   <a href="https://github.com/Alexsimulation/webFEM/network/members">
-    <img src="https://github.com/Alexsimulation/webFEM" alt="forks" />
+    <img src="https://img.shields.io/github/forks/Alexsimulation/webFEM" alt="forks" />
   </a>
   <a href="https://github.com/Alexsimulation/webFEM/stargazers">
-    <img src="https://github.com/Alexsimulation/webFEM" alt="stars" />
+    <img src="https://img.shields.io/github/stars/Alexsimulation/webFEM" alt="stars" />
   </a>
   <a href="https://github.com/Alexsimulation/webFEM/issues/">
     <img src="https://img.shields.io/github/issues/Alexsimulation/webFEM" alt="open issues" />
