@@ -50,8 +50,8 @@ This project aims to provide an easy to use website app for solving finite eleme
 
  * [x] 1D solver implementation
  * [x] 1D heat transfer tutorial web page
- * [ ] 1D full solver web page
- * [ ] 2D meshing implementation
+ * [x] 1D full solver web page
+ * [x] 2D meshing implementation
  * [ ] 2D solver implementation
  * [ ] 2D diffusion-advection tutorial web page
  * [ ] 2D full solver web page

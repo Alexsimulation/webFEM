@@ -19,6 +19,8 @@
 		</script>
 		<script src="../scripts/script.js"></script>
 		<script src="../scripts/fem.js"></script>
+		<script src="../scripts/meshing.js"></script>
+		<script src="../scripts/2d-tuto.js"></script>
 	</head>
 	<body class="is-preload">
 
@@ -56,11 +58,11 @@
 								<img src="../images/pic02.jpg" alt="" />
 							</span>
 							<header class="major">
-								<h1>1D Tutorial</h1>
+								<h1>2D Tutorial</h1>
 							</header>
 							<div class="content">
 								<p>Learn FEM with heat transfer<br />
-								1D problems with fixed temperature or heat flux boundaries.</p>
+								2D problems with fixed temperature or heat flux boundaries.</p>
 							</div>
 						</div>
 					</section>
@@ -72,21 +74,14 @@
 							<section id="one">
 								<div class="inner">
 									<header class="major">
-										<h2>The heat transfer equation</h2>
+										<h2>Creating the mesh</h2>
 									</header>
 									<p>
-										The heat transfer equation, in one dimension, can be written in partial differential form as such:
-										$$ -\frac{\partial}{\partial x}\left(k\frac{\partial T}{\partial x}\right) = q $$
-										Here, k in the thermal conductivity and q the volumetric heat source. This equation says in a way that the rate of change of the heat flux (left term) is equal to the volumetric heat source in the material (right term).
-									</p>
-									<header class="major">
-										<h2>Boundary conditions</h2>
-									</header>
-									<p>
-										The two simpler types of boundary conditions are Dirichlet boundaries and Neumann boundaries. Ddirichlet simply fix the value of a variable. Per example, fixing the value at \(x=0\) to \(T_0\):
-										$$ \text{Dirichlet:} \hspace{0.1in} T(0) = T_0 $$
-										The other type of boundary conditions are Neumann boundaries. Neumann bcs fix the slope of the function at a point. Per example, fixing the value of the slope at \(x=0\) to \(q_0\):
-										$$ \text{Neumann:} \hspace{0.1in} \frac{\partial T}{\partial x}(0) = q_0 $$
+										In 1D, that part was easy: the mesh is simply a series of lines, we only need to define the length of each elements. 
+										In 2D however, we need to generate some sort of 2D shape to represent each element. 
+										Also, our domain can take any 2D shape, that's not easy to divide in small chunks.
+										Meshing algorithms take the outside geometry description (example: a set of lines that form a closed surface), and generate polygons (here, triangles) inside of it.
+										A common algorithm to generate triangulations is the Delaunay algorithm, and is the algorithm of choice for this mesher.
 									</p>
 								</div>
 							</section>
@@ -97,28 +92,22 @@
 									<div class="content">
 										<div class="inner">
 											<header class="major">
-												<h3>Try it</h3>
+												<h3>Meshing</h3>
 											</header>
-											<p>Choose a value of k, q, and boundary conditions, and watch the plot on the right update. k and q can be function of the x position, try x**2 per example.</p>
-											<div class="paramform"> <p class="paramformchild">k</p> <input type="text" id="fk" name="fk" value="1" onchange="updateThermalPlot()"> </div>
-											<div class="paramform"> <p class="paramformchild">q</p> <input type="text" id="fq" name="fq" value="1" onchange="updateThermalPlot()"> </div>
-											<div class="paramform"> <p class="paramformchild">BC0</p> <select id="bc0" onchange="updateThermalPlot()">
-												<option value="dirichlet">dirichlet</option>
-												<option value="neumann">neumann</option>
-											  </select> <input type="text" id="bc0v" name="bc0v" value="0" onchange="updateThermalPlot()"> </div>
-											  <div class="paramform"> <p class="paramformchild">BC1</p> <select id="bc1" onchange="updateThermalPlot()">
-												<option value="dirichlet">dirichlet</option>
-												<option value="neumann">neumann</option>
-											  </select> <input type="text" id="bc1v" name="bc1v" value="0" onchange="updateThermalPlot()"> </div>
+											<p>Enter the \((x, y)\) position of each vertices, press <i>Update plot</i>, and watch the mesh plot on the right update.</p>
+											<div class="paramform"> <p class="paramformchild" style="width: 200px; margin: 5px;">(x0, y0)</p> <input type="text" id="p0x" name="p0x" value="0" onchange="get_mesh_commands()"> <input type="text" id="p0y" name="p0y" value="0" onchange="get_mesh_commands()"> </div>
+											<div class="paramform"> <p class="paramformchild" style="width: 200px; margin: 5px;">(x1, y1)</p> <input type="text" id="p1x" name="p1x" value="1" onchange="get_mesh_commands()"> <input type="text" id="p1y" name="p1y" value="0" onchange="get_mesh_commands()"> </div>
+											<div class="paramform"> <p class="paramformchild" style="width: 200px; margin: 5px;">(x2, y2)</p> <input type="text" id="p2x" name="p2x" value="1" onchange="get_mesh_commands()"> <input type="text" id="p2y" name="p2y" value="1" onchange="get_mesh_commands()"> </div>
+											<div class="paramform"> <p class="paramformchild" style="width: 200px; margin: 5px;">(x3, y3)</p> <input type="text" id="p3x" name="p3x" value="0" onchange="get_mesh_commands()"> <input type="text" id="p3y" name="p3y" value="1" onchange="get_mesh_commands()"> </div>
 											<p></p>
 											<ul class="actions">
-												<li><a class="button" onclick="updateThermalPlot()">Update plot</a></li>
+												<li><a class="button" onclick="remesh()">Update plot</a></li>
 											</ul>
 										</div>
 									</div>
 									<a class="chart">
-										<canvas id="myChart">
-											<script src="../scripts/plot-thermal.js"></script>
+										<canvas id="meshChart">
+											<script src="../scripts/2d-tuto-init-mesh.js"></script>
 										</canvas>
 									</a>
 								</section>
@@ -128,17 +117,40 @@
 							<section id="three">
 								<div class="inner">
 									<header class="major">
-										<h2>Strong to weak form</h2>
+										<h2>Solving PDE's</h2>
 									</header>
 									<p>
-										The above equation is in what we would call its strong form. To use the finite element method, we need a weaker form of the last equation. By strong or weak, we're talking about the order of the spatial derivative, currently we have a second order equation, but we'd like a first order one. To get that equation, we first start by multiplying both sides with a test function v:
-										$$ -\frac{\partial}{\partial x}\left(k\frac{\partial T}{\partial x}\right)v = qv $$
-										We then need to integrate both sides. Assume without loss of generality that our domain has x values that go from 0 to 1. The integration will allow us to lower the derivative order.
-										$$ -\int_0^1\frac{\partial}{\partial x}\left(k\frac{\partial T}{\partial x}\right)v dx = \int_0^1 qv dx $$
-										We can then integrate by parts to pass the derivative to the test function v.
-										$$ \int_0^1k\frac{\partial T}{\partial x}\frac{\partial v}{\partial x} dx - \left[k\frac{\partial T}{\partial x}v\right]_0^1 = \int_0^1 qv dx $$
+										Now that we have a mesh, we can solve PDE's on it just like we did in 1D. The process is actually quite similar, the only part that changes is the integration. 
+										Since we're now in 2D, we need to integrate on a surface, which is a bit more complex that integrating on a line.
 									</p>
 								</div>
+							</section>
+						
+							<!-- Two -->
+							<section id="two" class="spotlights">
+								<section>
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3>Try it</h3>
+											</header>
+											<p>Choose a value of k, q, and boundary conditions, and watch the plot on the right update. k and q can be function of the x position, try x**2 per example.</p>
+											<div class="paramform"> <p class="paramformchild" style="width: 200px; margin: 5px;">(x0, y0)</p> <input type="text" id="p0x" name="p0x" value="0" onchange="get_mesh_commands()"> <input type="text" id="p0y" name="p0y" value="0" onchange="get_mesh_commands()"> </div>
+											<div class="paramform"> <p class="paramformchild" style="width: 200px; margin: 5px;">(x1, y1)</p> <input type="text" id="p1x" name="p1x" value="1" onchange="get_mesh_commands()"> <input type="text" id="p1y" name="p1y" value="0" onchange="get_mesh_commands()"> </div>
+											<div class="paramform"> <p class="paramformchild" style="width: 200px; margin: 5px;">(x2, y2)</p> <input type="text" id="p2x" name="p2x" value="1" onchange="get_mesh_commands()"> <input type="text" id="p2y" name="p2y" value="1" onchange="get_mesh_commands()"> </div>
+											<div class="paramform"> <p class="paramformchild" style="width: 200px; margin: 5px;">(x3, y3)</p> <input type="text" id="p3x" name="p3x" value="0" onchange="get_mesh_commands()"> <input type="text" id="p3y" name="p3y" value="1" onchange="get_mesh_commands()"> </div>
+											<p></p>
+											<ul class="actions">
+												<li><a class="button" onclick="remesh()">Update plot</a></li>
+											</ul>
+										</div>
+									</div>
+									<a class="chart">
+										<canvas id="meshChart">
+											<script src="../scripts/2d-tuto-init-solver.js"></script>
+										</canvas>
+									</a>
+								</section>
 							</section>
 
 					</div>
